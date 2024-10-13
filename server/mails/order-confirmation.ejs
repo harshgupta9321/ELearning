@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Purchase Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .course-details {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .course-details h2 {
+            margin-top: 0;
+        }
+        .course-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .course-details th, .course-details td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .course-details th {
+            background-color: #f1f1f1;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 12px;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .course-details table {
+                border: 0;
+            }
+            .course-details thead {
+                display: none;
+            }
+            .course-details tbody, .course-details tr, .course-details td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 10px;
+                position: relative;
+            }
+            .course-details td {
+                padding-left: 50%;
+                text-align: right;
+                position: relative;
+            }
+            .course-details td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 10px;
+                font-weight: bold;
+                text-align: left;
+                white-space: nowrap;
+            }
+            .course-details td:last-child {
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Course Purchase Confirmation</h1>
+        </div>
+        <div class="content">
+            <p>Thank you for your purchase! Here are your order details:</p>
+            <div class="course-details">
+                <h2>Order Details</h2>
+                <p><strong>Order Number:</strong> <%= order._id %></p>
+                <p><strong>Order Date:</strong> <%= order.date %></p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="Course Name"><%= order.name %></td>
+                            <td data-label="Quantity">1</td>
+                            <td data-label="Price">$<%= order.price %></td>
+                            <td data-label="Subtotal">$<%= order.price %></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3" style="text-align:right;">Total:</th>
+                            <th>$<%= order.price %></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <p>You can access your purchased course in your account dashboard.</p>
+            <p>We hope you enjoy the course and find it valuable!</p>
+        </div>
+        <div class="footer">
+            <p>If you have any questions, please contact our support team.</p>
+        </div>
+    </div>
+</body>
+</html>
