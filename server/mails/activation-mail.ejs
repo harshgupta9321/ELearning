@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Elearning</h1>
+        </div>
+        <div class="content">
+            <p>Dear <%= user.name %>,</p>
+            <p>Thank you for registration with Elearning.To activate your account, please use the following activation code</p><h2><%= activationCode %></h2>
+            <p>Please enter this activation code on the activation page within 5 minutes,<br>If you did not register for Elearning account, please ignore this mail.</p>
+        </div>
+        <div class="footer">
+            <p>If you have any questions, please don't hesitate to contact us at <a href="mailto:harshgupta18022003@gmail.com">contact us</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
