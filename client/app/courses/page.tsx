@@ -9,10 +9,11 @@ import Header from "../components/Header";
 import Heading from "../utils/Heading";
 import { styles } from "../Style/style";
 import CourseCard from "../components/Course/CourseCard";
+import Footer from "../components/Footer";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Page = (props: Props) => {
   const searchParams = useSearchParams();
   const search = searchParams?.get(`title`);
   const { data, isLoading } = useGetUsersAllCoursesQuery(undefined, {});
@@ -60,7 +61,7 @@ const page = (props: Props) => {
             setOpen={setOpen}
             activeItem={1}
           />
-          <div className="w-[95%] 800px:w-[85%] m-auto min-h-[70vh] ">
+          <div className="w-[95%] 800px:w-[85%] m-auto min-h-screen">
             <Heading
               title="All courses -ELearning"
               description="ELearning is a programming community"
@@ -110,10 +111,11 @@ const page = (props: Props) => {
                 ))}
             </div>
           </div>
+          <Footer />
         </>
       )}
     </div>
   );
 };
 
-export default page;
+export default Page;

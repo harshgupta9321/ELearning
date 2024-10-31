@@ -15,8 +15,18 @@ import toast from "react-hot-toast";
 
 type Props = {};
 
+interface CourseAnalyticsData {
+  courses: {
+    last12Months: {
+      month: string;
+      count: number;
+    }[];
+  };
+}
+
+
 const CourseAnalytics = (props: Props) => {
-  const { data, error, isLoading } = useGetCoursesAnalyticsQuery({});
+  const { data, error, isLoading } = useGetCoursesAnalyticsQuery({}) as any;
 
   useEffect(()=>{
     if(error){

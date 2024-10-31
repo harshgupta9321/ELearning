@@ -37,7 +37,7 @@ const AllCourses = (props: Props) => {
       const errorMessage = extractErrorMessage(deleteError);
       toast.error(errorMessage);
     }
-  }, [isSuccess, deleteError]);
+  }, [isSuccess, deleteError,refetch]);
 
   const extractErrorMessage = (error: any) => {
     if (error && error.data) {

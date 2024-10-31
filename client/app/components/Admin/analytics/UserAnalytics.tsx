@@ -25,7 +25,7 @@ type Props = {
 // ];
 
 const UserAnalytics: FC<Props> = ({ isDashboard }) => {
-  const { data, error, isLoading } = useGetUsersAnalyticsQuery({});
+  const { data, error, isLoading } = useGetUsersAnalyticsQuery({}) as any;
 
   const analyticsData:any=[]
   

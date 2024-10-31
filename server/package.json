@@ -2,10 +2,17 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "type": "commonjs",
+  "main": "build/server.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "start": "node build/server.js",
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false",
+    "build":"tsc"
   },
   "author": "harsh",
   "license": "ISC",
@@ -25,6 +32,7 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.0",

@@ -15,9 +15,9 @@ type Props = {
 
 const AllInvoices: FC<Props> = ({ isDashboard }) => {
   const { theme, setTheme } = useTheme();
-  const { data, isLoading } = useGetAllOrdersQuery({});
-  const { data: usersData } = useGetAllUsersQuery({});
-  const { data: coursesData } = useGetAllCoursesQuery({});
+  const { data, isLoading } = useGetAllOrdersQuery({}) as any;
+  const { data: usersData } = useGetAllUsersQuery({}) as any;
+  const { data: coursesData } = useGetAllCoursesQuery({}) as any;
 
   const [orderData, setOrderData] = useState<any>([]);
 
@@ -83,56 +83,7 @@ const AllInvoices: FC<Props> = ({ isDashboard }) => {
         ]),
   ];
 
-  const rows: any = [
-    {
-      id: "12jds",
-      userName: "harsh",
-      userEmail: "harshgupta1845@gmail.com",
-      title: "Project",
-      price: "$500",
-      created_at: "2 days ago",
-    },
-    {
-      id: "12jds",
-      userName: "harsh",
-      userEmail: "harshgupta1845@gmail.com",
-      title: "Project",
-      price: "$500",
-      created_at: "2 days ago",
-    },
-    {
-      id: "12jds",
-      userName: "harsh",
-      userEmail: "harshgupta1845@gmail.com",
-      title: "Project",
-      price: "$500",
-      created_at: "2 days ago",
-    },
-    {
-      id: "12jds",
-      userName: "harsh",
-      userEmail: "harshgupta1845@gmail.com",
-      title: "Project",
-      price: "$500",
-      created_at: "2 days ago",
-    },
-    {
-      id: "12jds",
-      userName: "harsh",
-      userEmail: "harshgupta1845@gmail.com",
-      title: "Project",
-      price: "$500",
-      created_at: "2 days ago",
-    },
-    {
-      id: "12jds",
-      userName: "harsh",
-      userEmail: "harshgupta1845@gmail.com",
-      title: "Project",
-      price: "$500",
-      created_at: "2 days ago",
-    },
-  ];
+  const rows: any = [];
 
   orderData &&
     orderData.forEach((item: any) => {
@@ -142,7 +93,7 @@ const AllInvoices: FC<Props> = ({ isDashboard }) => {
         userEmail: item.userEmail,
         title: item.title,
         price: item.price,
-        created_at: format(item.created_at),
+        created_at: format(item.createdAt),
       });
     });
 
@@ -214,7 +165,6 @@ const AllInvoices: FC<Props> = ({ isDashboard }) => {
               checkboxSelection={isDashboard ? false : true}
               rows={rows}
               columns={columns}
-              components={isDashboard ? {} : { Toolbar: GridToolbar }}
             />
           </Box>
         </Box>

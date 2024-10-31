@@ -54,7 +54,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       const errorMessage = extractErrorMessage(deleteError);
       toast.error(errorMessage);
     }
-  }, [deleteSuccess, deleteError]);
+  }, [deleteSuccess, deleteError,refetch]);
 
   const extractErrorMessage = (error: any) => {
     if (error && error.data) {
@@ -185,7 +185,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
                 {
                   data?.users?.map((user:any,index:number)=>(
 
-                    <option value={user?.email}>{user?.email}</option>
+                    <option key={index} value={user?.email}>{user?.email}</option>
                   ))
                 }
               </select>

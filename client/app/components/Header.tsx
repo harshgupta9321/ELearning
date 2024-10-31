@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState,useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import Link from "next/link";
 import NavItems from "../utils/NavItems";
 import { ThemeSwitcher } from "../utils/ThemeSwitcher";
@@ -9,12 +9,16 @@ import CustomModal from "../utils/CustomModal";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
 import Verification from "./Auth/Verification";
-import {useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 import Image from "next/image";
-import avatar from '../Images/th.jpeg'
-import {useSession} from 'next-auth/react'
-import { useLogOutQuery, useSocialAuthMutation } from "@/redux/features/auth/authApi";
-import toast from 'react-hot-toast'
+import avatar from "../Images/th.jpeg";
+import { useSession } from "next-auth/react";
+import {
+  useLogOutQuery,
+  useSocialAuthMutation,
+} from "@/redux/features/auth/authApi";
+import toast from "react-hot-toast";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 type Props = {
   open: boolean;
@@ -27,36 +31,43 @@ type Props = {
 const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [active, setActive] = useState(false);
-  const {user}=useSelector((state:any)=>state.auth)
-  const {data}=useSession()
-  const [socialAuth,{isSuccess,error}]=useSocialAuthMutation()
-  const [logout,setLogout]=useState(false)
+  // const {user}=useSelector((state:any)=>state.auth)
+  const {
+    data: userData,
+    isLoading,
+    refetch,
+  } = useLoadUserQuery(undefined, {});
+  const { data } = useSession();
+  const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+  const [logout, setLogout] = useState(false);
 
-  const {}=useLogOutQuery(undefined,{
-    skip: !logout?true:false
-  })
+  const {} = useLogOutQuery(undefined, {
+    skip: !logout ? true : false,
+  });
 
 
   useEffect(() => {
-    if(!user){
-      if(data){
-        socialAuth({
-          email:data?.user?.email, 
-          name:data?.user?.name, 
-          avatar:data?.user?.image
-         })
+    if (!isLoading) {
+      if (!userData) {
+        if (data) {
+          socialAuth({
+            email: data?.user?.email,
+            name: data?.user?.name,
+            avatar: data?.user?.image,
+          });
+          refetch();
+        }
+      }
+      if (data === null) {
+        if (isSuccess) {
+          toast.success("Login successfully");
+        }
+      }
+      if (data === null && !userData) {
+        setLogout(true);
       }
     }
-    if(data===null){
-      if(isSuccess){
-        toast.success("Login successfully")
-      }
-    }
-    if(data===null){
-      setLogout(true)
-    }
-  }, [data,user])
-  
+  }, [data, userData,isLoading,isSuccess,refetch,socialAuth]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -108,26 +119,26 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                 />
               </div>
 
-              {
-                user?(
-                  <Link href={"/profile"}>
-                    <Image
-                    src={user.avatar? user.avatar.url : avatar}
-                    alt=""  
+              {userData ? (
+                <Link href={"/profile"}>
+                  <Image
+                    src={userData.user.avatar ? userData.user.avatar.url : avatar}
+                    alt=""
                     width={30}
                     height={30}
-                    className="w-[30px] h-[30px] rounded-full cursor-pointer "     
-                    style={{border: activeItem===5 ? "2px solid #37a39a":"none"}}   
-                    />
-                  </Link>
-                ):(
+                    className="w-[30px] h-[30px] rounded-full cursor-pointer "
+                    style={{
+                      border: activeItem === 5 ? "2px solid #37a39a" : "none",
+                    }}
+                  />
+                </Link>
+              ) : (
                 <HiOutlineUserCircle
                   size={25}
                   className="hidden 800px:block cursor-pointer dark:text-white text-black"
                   onClick={() => setOpen(true)}
                 />
-                )
-              }
+              )}
             </div>
           </div>
         </div>
@@ -148,11 +159,26 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
 
               <NavItems activeItem={activeItem} isMobile={true} />
 
-              <HiOutlineUserCircle
-                size={25}
-                className="cursor-pointer ml-5 my-2 dark:text-white text-black"
-                onClick={() => setOpen(true)}
-              />
+              {userData ? (
+                <Link href={"/profile"}>
+                  <Image
+                    src={userData.user.avatar ? userData.user.avatar.url : avatar}
+                    alt=""
+                    width={30}
+                    height={30}
+                    className="w-[30px] h-[30px] rounded-full cursor-pointer ml-[20px]"
+                    style={{
+                      border: activeItem === 5 ? "2px solid #37a39a" : "none",
+                    }}
+                  />
+                </Link>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  className="hidden 800px:block cursor-pointer ml-[20px] dark:text-white text-black"
+                  onClick={() => setOpen(true)}
+                />
+              )}
               <br />
               <br />
               <p className="text-[16px] pl-2 px-2 text-black dark:text-white">
@@ -171,6 +197,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               setRoute={setRoute}
               activeItem={activeItem}
               component={Login}
+              refetch={refetch}
             />
           )}
         </>
@@ -190,7 +217,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         </>
       )}
 
-
       {route == "Verification" && (
         <>
           {open && (
@@ -206,6 +232,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
       )}
     </div>
   );
-};  
+};
 
 export default Header;

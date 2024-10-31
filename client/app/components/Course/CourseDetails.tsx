@@ -57,17 +57,17 @@ const CourseDetails = ({ data, stripePromise, clientSecret,setRoute,setOpen:open
         <div className="w-full flex flex-cols-reverse 800px:flex-row">
           <div className="w-full 800px:w-[65%] 800px:pr-5">
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
-              {data.name}
+              {data?.name}
             </h1>
             <div className="flex items-center justify-between pt-3">
               <div className="flex items-center">
-                <Ratings rating={data.ratings} />
+                <Ratings rating={data?.ratings} />
                 <h5 className="text-black dark:text-white">
                   {data?.reviews?.length} Reviews
                 </h5>
               </div>
               <h5 className="text-black dark:text-white">
-                {data.purchased} Students
+                {data?.purchased} Students
               </h5>
             </div>
             <br />
@@ -75,7 +75,7 @@ const CourseDetails = ({ data, stripePromise, clientSecret,setRoute,setOpen:open
               What will you learn in this course?
             </h1>
             <div>
-              {data.benefits?.map((item: any, index: number) => (
+              {data?.benefits?.map((item: any, index: number) => (
                 <div
                   className="w-full flex 800px:items-center py-2"
                   key={index}
@@ -96,7 +96,7 @@ const CourseDetails = ({ data, stripePromise, clientSecret,setRoute,setOpen:open
               <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                 What are the prerequisites for starting this course?
               </h1>
-              {data.prerequisites?.map((item: any, index: number) => (
+              {data?.prerequisites?.map((item: any, index: number) => (
                 <div
                   className="w-full flex 800px:items-center py-2"
                   key={index}
@@ -176,8 +176,8 @@ const CourseDetails = ({ data, stripePromise, clientSecret,setRoute,setOpen:open
                           <Ratings rating={item.rating} />
                         </div>
                       </div>
-                      {item.commentReplies.map((i: any) => (
-                        <div className="w-full flex 800px:ml-16 my-5 dark:text-white text-black">
+                      {item?.commentReplies?.map((i: any,index:number) => (
+                        <div key={index} className="w-full flex 800px:ml-16 my-5 dark:text-white text-black">
                           <div>
                             <Image
                               src={i.user.avatar ? i.user.avatar.url : avatar}
@@ -269,7 +269,7 @@ const CourseDetails = ({ data, stripePromise, clientSecret,setRoute,setOpen:open
               <div className="w-full">
                 {stripePromise && clientSecret && (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckOutForm setOpen={setOpen} data={data} />
+                    <CheckOutForm setOpen={setOpen} data={data} user={user} />
                   </Elements>
                 )}
               </div>

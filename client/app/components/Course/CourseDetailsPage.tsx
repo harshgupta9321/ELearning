@@ -26,7 +26,7 @@ const CourseDetailsPage = ({ id }: Props) => {
   // Explicitly type `config` as StripeConfig or undefined if it might be missing
   const { data: config } = useGetStripePublishableKeyQuery({}) as { data?: StripeConfig };
 
-  const [createPaymentIntent,{data:paymentIntentData}]=useCreatePaymentIntentMutation() 
+  const [createPaymentIntent,{data:paymentIntentData}]=useCreatePaymentIntentMutation() as any
   
   const [stripePromise, setStripePromise] = useState<any>(null);
   const [clientSecret, setClientSecret] = useState('');
@@ -43,7 +43,7 @@ const CourseDetailsPage = ({ id }: Props) => {
       createPaymentIntent(amount)
     }
 
-  }, [config,data]);
+  }, [config,data,createPaymentIntent]);
 
 
   useEffect(() => {

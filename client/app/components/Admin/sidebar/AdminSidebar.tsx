@@ -105,7 +105,10 @@ const AdminSidebar = () => {
       >
         <Menu iconShape="square">
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+             onClick={() => {
+              console.log("Arrow clicked");
+              setIsCollapsed(!isCollapsed);
+           }}
             icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
             style={{
               margin: "10px 0px 20px 0px",
@@ -146,6 +149,7 @@ const AdminSidebar = () => {
                     borderRadius: "50%",
                     border: "3px solid #5b6fe6",
                   }}
+                  className="w-[100px] h-[100px] rounded-full object-fit"
                 />
               </Box>
               <Box textAlign="center">
@@ -302,6 +306,7 @@ const AdminSidebar = () => {
               icon={<SettingsIcon />}
               selected={selected}
               setSelected={setSelected}
+              
             />
           </Box>
         </Menu>

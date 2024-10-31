@@ -1,7 +1,7 @@
 'use client'
 import CourseDetailsPage from '../../components/Course/CourseDetailsPage'
 
-const page = ({params}: any) => {
+const Page = ({params}: any) => {
   return (
     <div>
         <CourseDetailsPage id={params.id} />
@@ -9,4 +9,4 @@ const page = ({params}: any) => {
   )
 }
 
-export default page
+export default Page

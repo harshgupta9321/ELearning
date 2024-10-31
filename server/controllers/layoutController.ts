@@ -147,7 +147,6 @@ export const getLayoutByType = catchAsyncError(async (req: Request, res: Respons
     try {
        const {type}=req.params
        const layout=await layoutModel.findOne({type})
-       console.log(`${type} type is here`)
        
        if(layout){
            res.status(201).json({

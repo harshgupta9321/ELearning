@@ -39,7 +39,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
       const errorMessage = extractErrorMessage(error);
       toast.error(errorMessage);
     }
-  },[isSuccess,error])
+  },[isSuccess,error,isError])
 
   const extractErrorMessage = (error: any) => {
     if (error && error.data) {

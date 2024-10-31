@@ -21,6 +21,10 @@ import { format } from "timeago.js";
 import { BiMessage } from "react-icons/bi";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import Ratings from "@/app/utils/Ratings";
+import socketIO from 'socket.io-client';
+
+const ENDPOINT=process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
+const socketId=socketIO(ENDPOINT,{transports:["websocket"]})
 
 type Props = {
   data: any;
@@ -133,15 +137,6 @@ const CourseContentMedia = ({
     }
   };
 
-  // const handleReviewReplySubmit = () => {
-  //   if (!replyCreationLoading) {
-  //     if (reply === "") {
-  //       toast.error("Reply cannot be empty");
-  //     } else {
-  //       addReplyInReview({ comment: reply, courseId: id, reviewId });
-  //     }
-  //   }
-  // };
 
   const handleReviewReplySubmit = () => {
     if (!replyCreationLoading && reply !== "") {
@@ -160,17 +155,34 @@ const CourseContentMedia = ({
       setQuestion("");
       refetch();
       toast.success("Question added successfully");
+      socketId.emit("notification",()=>{
+        title:"New Question Received"
+        message:`You have a new question from ${data[activeVideo]?.title}`
+        userId:user._id
+      })
     }
     if (answerSuccess) {
       setAnswer("");
       refetch();
       toast.success("Answer added successfully");
+      if(user.role!=="admin"){
+        socketId.emit("notification",()=>{
+          title:"New Question Reply Received"
+          message:`You have a new reply in question from ${data[activeVideo]?.title}`
+          userId:user._id
+        })
+      }
     }
 
     if (reviewSuccess) {
       setReview("");
       courseRefetch();
       toast.success("Review added successfully");
+      socketId.emit("notification",()=>{
+        title:"New Review Received"
+        message:`${user.name} has given a review in ${data[activeVideo]?.title}`
+        userId:user._id
+      })
     }
 
     if (replySuccess) {
@@ -290,7 +302,7 @@ const CourseContentMedia = ({
       {activeBar === 1 && (
         <div>
           {data[activeVideo]?.links.map((item: any, index: number) => (
-            <div className="mb-5">
+            <div  key={index} className="mb-5">
               <h2 className="800px:text-[20px] 800px:inline-block">
                 {item.title && item.title + " :"}
               </h2>
@@ -601,8 +613,8 @@ const CommentItem = ({
         </div>
         {replyActive && (
           <>
-            {item.questionReplies.map((i: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 dark:text-white text-black">
+            {item.questionReplies.map((i: any,index:number) => (
+              <div key={index} className="w-full flex 800px:ml-16 my-5 dark:text-white text-black">
                 <div>
                   <Image
                     src={i.user.avatar ? i.user.avatar.url : avatar}

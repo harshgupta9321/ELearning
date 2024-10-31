@@ -4,7 +4,7 @@ import { getNotification, updateNotification } from "../controllers/notification
 import { updateAccessToken } from "../controllers/userController";
 const notificationRouter=express.Router()
 
-notificationRouter.get("/get-all-notification",updateAccessToken,isAuthenticated,authorizeRole("admin"),getNotification)
+notificationRouter.get("/get-all-notifications",updateAccessToken,isAuthenticated,authorizeRole("admin"),getNotification)
 notificationRouter.put("/update-notification/:id",updateAccessToken,isAuthenticated,authorizeRole("admin"),updateNotification)
 
 export default notificationRouter

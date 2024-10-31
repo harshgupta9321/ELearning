@@ -38,7 +38,7 @@ const EditHero: FC<Props> = () => {
       const errorMessage = extractErrorMessage(error);
       toast.error(errorMessage);
     }
-  }, [data, isSuccess, error, isEditSuccess]);
+  }, [data, isSuccess, error, isEditSuccess,refetch]);
 
   const extractErrorMessage = (error: any) => {
     if (error && error.data) {

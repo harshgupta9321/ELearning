@@ -56,8 +56,8 @@ const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
                </div>
                     {
                         navItemData && navItemData.map((item, index) => (
-                            <Link href="/" passHref>
-                                <span className={`${activeItem === index ? "dark:text-[#37a39a] text-[crimson]" : "dark:text-white text-black"} text-[18px] px-6 font-Poppins font-[400]`}>
+                            <Link key={index} href="/" passHref>
+                                <span  className={`${activeItem === index ? "dark:text-[#37a39a] text-[crimson]" : "dark:text-white text-black"} text-[18px] px-6 font-Poppins font-[400]`}>
                                     {item.name}
                                 </span>
                             </Link>
