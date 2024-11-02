@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc && npm run copy-mails",
     "start": "node build/server.js",
-    "copy-mails": "xcopy /E /I mails build\\mails"
+    "copy-mails": "copyfiles -u 1 mails/* build/mails"
   },
   "author": "harsh",
   "license": "ISC",
@@ -44,6 +44,7 @@
     "@types/ejs": "^3.1.5",
     "@types/node": "^22.8.6",
     "@types/nodemailer": "^6.4.15",
+    "copyfiles": "^2.4.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.3"
   }
