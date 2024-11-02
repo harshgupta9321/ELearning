@@ -8,8 +8,9 @@
     "node": "18.x"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "node build/server.js"
+    "build": "tsc && npm run copy-mails",
+    "start": "node build/server.js",
+    "copy-mails": "xcopy /E /I mails build\\mails"
   },
   "author": "harsh",
   "license": "ISC",
