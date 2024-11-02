@@ -21,7 +21,7 @@ app.use(cookieParser());
 //Cors- Cross origin resourse sharing
 app.use(
   cors({
-    origin: ["https://elearning-rsrr.onrender.com"],
+    origin: ["https://e-learning-self-two.vercel.app/"],
     credentials: true,
   })
 );
