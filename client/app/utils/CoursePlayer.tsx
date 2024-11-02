@@ -15,7 +15,7 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
   useEffect(() => {
     const getOTP = async () => {
       try {
-        const res = await axios.post("http://localhost:8000/api/v1/getVdoCipherOTP", {
+        const res = await axios.post("https://elearning-rsrr.onrender.com/api/v1/getVdoCipherOTP", {
           videoId: videoUrl,
         });
         setVideoData({
