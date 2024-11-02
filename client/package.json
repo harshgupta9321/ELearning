@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
     "@mui/x-data-grid": "^7.18.0",
+    "@reduxjs/toolkit": "^2.3.0",
     "@stripe/react-stripe-js": "^2.8.1",
     "@stripe/stripe-js": "^4.8.0",
     "axios": "^1.7.7",
+    "formik": "^2.4.6",
     "next": "^14.2.16",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
@@ -27,7 +32,8 @@
     "recharts": "^2.12.7",
     "sharp": "^0.33.5",
     "socket.io-client": "^4.8.1",
-    "timeago.js": "^4.0.2"
+    "timeago.js": "^4.0.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
