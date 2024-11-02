@@ -71,7 +71,7 @@ const extractErrorMessage = (error: any) => {
   const { errors, touched, values, handleChange, handleSubmit } = formik;
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <h1 className={`${styles.title} `}>Login with ELearning</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email" className={`${styles.label} `}>
