@@ -9,6 +9,7 @@ import { format } from "timeago.js";
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
+  useUpdateRoleMutation,
 } from "../../../../redux/features/user/userApi";
 import { styles } from "@/app/Style/style";
 import toast from "react-hot-toast";
@@ -25,24 +26,42 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
   );
   const [deleteUser, { isSuccess: deleteSuccess, error: deleteError }] =
     useDeleteUserMutation({});
+  const [updateRole,{isSuccess:updateRoleSuccess,error:updateRoleError}]=useUpdateRoleMutation({})
   const [active, setActive] = useState(false);
   const [role, setRole] = useState("admin");
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
-  const [emailAdd,setEmailAdd]=useState([])
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [selectedRole, setSelectedRole] = useState(""); 
 
   const handleDelete = async () => {
     const id = userId;
     await deleteUser(id);
   };
 
+  const handleAddMember = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!selectedUserId || !selectedRole) {
+      toast.error("Please select both an email and a role.");
+      return;
+    }
 
-  // const handleAddMember=()=>{
-  //   const isEmailExist= 
-  // }
+    try {
+      // Send selected email and role to the API
+      await updateRole({ id: selectedUserId, role: selectedRole });
+      toast.success("User role updated successfully!");
+      
+      // Optionally, reset the selections and close the modal
+      setSelectedUserId("");
+      setSelectedRole("");
+      setActive(false);
+    } catch (error) {
+      toast.error("Failed to update user role.");
+    }
+  };
 
-  
 
   useEffect(() => {
     if (deleteSuccess) {
@@ -54,7 +73,15 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       const errorMessage = extractErrorMessage(deleteError);
       toast.error(errorMessage);
     }
-  }, [deleteSuccess, deleteError,refetch]);
+    if (updateRoleSuccess) {
+      refetch();
+      toast.success("Role updated successfully");
+    }
+    if (updateRoleError) {
+      const errorMessage = extractErrorMessage(updateRoleError);
+      toast.error(errorMessage);
+    }
+  }, [deleteSuccess, deleteError,updateRoleSuccess,updateRoleError, refetch]);
 
   const extractErrorMessage = (error: any) => {
     if (error && error.data) {
@@ -173,40 +200,47 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
             </div>
           )}
 
-          {active && (
-            <Box className="relative top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-100  w-[25vw] p-5 rounded-[5%]">
-              <form action="">
-              <label htmlFor="email" className={`${styles.label} opacity-100 bg-opacity-100 `}>
-                Select Email
-              </label>
-            
-              <select name="email" id="email" className={`${styles.input} dark:bg-black mb-5`}>
-                <option value="">Select</option>
-                {
-                  data?.users?.map((user:any,index:number)=>(
+           {active && (
+        <Box className="relative top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-100  w-[25vw] p-5 rounded-[5%]">
+          <form onSubmit={handleAddMember}>
+            <label htmlFor="email" className={`${styles.label} opacity-100 bg-opacity-100`}>
+              Select Email
+            </label>
+            <select
+              name="email"
+              id="email"
+              className={`${styles.input} dark:bg-black mb-5`}
+              value={selectedUserId}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+            >
+              <option value="">Select</option>
+              {data?.users?.map((user: any, index: number) => (
+                <option key={index} value={user?._id}>{user?.email}</option>
+              ))}
+            </select>
 
-                    <option key={index} value={user?.email}>{user?.email}</option>
-                  ))
-                }
-              </select>
-              
-              <label htmlFor="role" className={`${styles.label} opacity-100 bg-opacity-100`}>
-                Select Role
-              </label>
-              <select name="role" id="role" className={`${styles.input} dark:bg-black`}>
-                <option value="">Select</option>
-                <option value="admin">Admin</option>
-                <option value="manager">User</option>
-                <option value="user">User</option>
-              </select>
+            <label htmlFor="role" className={`${styles.label} opacity-100 bg-opacity-100`}>
+              Select Role
+            </label>
+            <select
+              name="role"
+              id="role"
+              className={`${styles.input} dark:bg-black`}
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+            >
+              <option value="">Select</option>
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+              <option value="user">User</option>
+            </select>
 
-              <button className={`${styles.button} mt-2 ` }>
-                Add
-              </button>
-              </form>
-              
-            </Box>
-          )}
+            <button type="submit" className={`${styles.button} mt-2`}>
+              Add
+            </button>
+          </form>
+        </Box>
+      )}
 
           <Box
             m="40px 0 0 0"
