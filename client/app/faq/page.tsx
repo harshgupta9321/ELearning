@@ -14,7 +14,7 @@ const Page = (props: Props) => {
   const [route, setRoute] = useState("Login");
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Heading
         title="FAQ - ELearning"
         description="ELearning is learning management system for helping programmers."
