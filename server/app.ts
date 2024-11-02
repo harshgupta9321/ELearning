@@ -21,7 +21,7 @@ app.use(cookieParser());
 //Cors- Cross origin resourse sharing
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://elearning-rsrr.onrender.com"],
     credentials: true,
   })
 );
