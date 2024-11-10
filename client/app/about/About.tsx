@@ -49,7 +49,7 @@ const About = (props: Props) => {
                 </h2>
                 <ul className="list-disc list-inside text-lg text-gray-600 dark:text-white ">
                   <li>
-                    <strong>Comprehensive Courses:</strong> Whether you're
+                    <strong>Comprehensive Courses:</strong> Whether you are
                     learning a new skill or advancing your career, our diverse
                     range of courses covers topics in computer science,
                     artificial intelligence, machine learning, data science,
@@ -108,7 +108,7 @@ const About = (props: Props) => {
                     Scalability
                   </h3>
                   <p className="text-lg text-gray-600 dark:text-white ">
-                    Whether you're an individual student, an instructor, or an
+                    Whether you are an individual student, an instructor, or an
                     organization looking to scale, our platform can accommodate
                     learners of all sizes and needs.
                   </p>
@@ -131,7 +131,7 @@ const About = (props: Props) => {
                 Join Us Today
               </h2>
               <p className="text-lg text-gray-600 dark:text-white ">
-                Whether you're looking to acquire new skills, broaden your
+                Whether you are looking to acquire new skills, broaden your
                 knowledge, or teach others, <strong>ELearning</strong> is here
                 to support your learning journey. Explore our courses today and
                 take the next step towards achieving your educational goals!

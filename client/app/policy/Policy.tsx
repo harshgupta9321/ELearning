@@ -127,7 +127,7 @@ const Policy = (props: Props) => {
         <div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">Withdraw Consent</h3>
           <p className="text-base text-gray-600 dark:text-gray-300">
-            If you've given us consent for processing your data, you can withdraw it at any time.
+            If you have given us consent for processing your data, you can withdraw it at any time.
           </p>
         </div>
       </div>
