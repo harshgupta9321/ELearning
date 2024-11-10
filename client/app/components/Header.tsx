@@ -45,7 +45,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     skip: !logout ? true : false,
   });
 
-
   useEffect(() => {
     if (!isLoading) {
       if (!userData) {
@@ -67,7 +66,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         setLogout(true);
       }
     }
-  }, [data, userData,isLoading,isSuccess,refetch,socialAuth]);
+  }, [data, userData, isLoading, isSuccess, refetch, socialAuth]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -122,7 +121,9 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               {userData ? (
                 <Link href={"/profile"}>
                   <Image
-                    src={userData.user.avatar ? userData.user.avatar.url : avatar}
+                    src={
+                      userData.user.avatar ? userData.user.avatar.url : avatar
+                    }
                     alt=""
                     width={30}
                     height={30}
@@ -162,7 +163,9 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               {userData ? (
                 <Link href={"/profile"}>
                   <Image
-                    src={userData.user.avatar ? userData.user.avatar.url : avatar}
+                    src={
+                      userData.user.avatar ? userData.user.avatar.url : avatar
+                    }
                     alt=""
                     width={30}
                     height={30}
@@ -176,7 +179,10 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                 <HiOutlineUserCircle
                   size={25}
                   className="block cursor-pointer ml-[20px] dark:text-white text-black"
-                  onClick={() => setOpen(true)}
+                  onClick={() => {
+                    setOpen(true);
+                    setOpenSidebar(false);
+                  }}
                 />
               )}
               <br />
