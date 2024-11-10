@@ -47,7 +47,7 @@
     "typescript": "^5"
   },
   "resolutions": {
-    "react-chat-widget/react": "^18.2.0",
+    "react-chat-widget/react": "^17.0.2",
     "react-chat-widget": "^3.1.4"
   }
   
