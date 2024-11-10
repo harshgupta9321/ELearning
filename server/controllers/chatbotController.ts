@@ -1,3 +1,4 @@
+require("dotenv").config()
 import { Request, Response, NextFunction } from "express";
 import { OpenAI } from "openai";
 import ErrorHandler from "../utils/Errorhandler";
