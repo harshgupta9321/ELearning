@@ -106,6 +106,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               </Link>
             </div>
             <div className="flex items-center">
+              
               <NavItems activeItem={activeItem} isMobile={false} />
               <ThemeSwitcher />
 

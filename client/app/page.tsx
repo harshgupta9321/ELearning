@@ -7,6 +7,7 @@ import Course from "./components/Routes/Course"
 import Reviews from "./components/Routes/Reviews"
 import FAQ from './components/FAQ/FAQ'
 import Footer from './components/Footer'
+import ChatbotWidget from "./components/ChatBotWidget"
 
 interface Props{}
 
@@ -33,6 +34,7 @@ const Page: FC<Props> = (props)=>{
       />
 
       <Hero/>
+      <ChatbotWidget />
       <Course />
       <Reviews/>
       <FAQ />

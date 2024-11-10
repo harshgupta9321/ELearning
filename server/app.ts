@@ -11,6 +11,7 @@ import notificationRouter from "./routes/notification-routes";
 import analyticsRouter from "./routes/analytics-routes";
 import layoutRouter from "./routes/layout-routes";
 import { rateLimit } from "express-rate-limit";
+import chatBotrouter from "./routes/chatBotRoutes";
 
 //body parser
 app.use(express.json({ limit: "50mb" }));
@@ -43,7 +44,8 @@ app.use(
   orderRouter,
   notificationRouter,
   analyticsRouter,
-  layoutRouter
+  layoutRouter,
+  chatBotrouter
 );
 
 //testing api
