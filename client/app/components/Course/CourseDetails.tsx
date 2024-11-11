@@ -37,7 +37,7 @@ const CourseDetails = ({ data, stripePromise, clientSecret,setRoute,setOpen:open
   const discountPercentage =
     ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
   const discountPercentagePrice = discountPercentage.toFixed(0);
-  console.log(userData);
+
 
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
