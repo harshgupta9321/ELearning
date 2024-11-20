@@ -37,13 +37,14 @@ export const registerationUser = catchAsyncError(async (req: Request, res: Respo
         const activationToken = createActivationToken(user)
         const activationCode = activationToken.activationcode;
         const data = { user: { name: user.name }, activationCode }
-        const html = await ejs.renderFile(path.join(__dirname, "../mails/Activation-mail.ejs"), data)
+        const html = await ejs.renderFile(path.join(__dirname, "../mails/activation-mail.ejs"), data)
+        console.log(__dirname)
 
         try {
             await sendMail({
                 email: user.email,
                 subject: "Activate your account",
-                template: "Activation-mail.ejs",
+                template: "activation-mail.ejs",
                 data
             })
             res.status(201).json({
