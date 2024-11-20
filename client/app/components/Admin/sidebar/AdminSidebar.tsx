@@ -1,10 +1,8 @@
 "use client";
-
 import React, { FC, useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
-import { useRouter } from "next/router";
 import {
   HomeOutlinedIcon,
   ArrowForwardIosIcon,
@@ -21,9 +19,10 @@ import {
   WysiwygIcon,
   ManageHistoryIcon,
   SettingsIcon,
+  ExitToAppIcon,
 } from "./Icon";
 import avatarDefault from "../../../Images/avatar.jpeg";
-import { useSelector } from "react-redux";
+import { UseSelector, useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -33,11 +32,16 @@ interface itemProps {
   to: string;
   icon: JSX.Element;
   selected: string;
+  setSelected: any;
 }
 
-const Item: FC<itemProps> = ({ title, to, icon, selected }) => {
+const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
   return (
-    <MenuItem active={selected === to} icon={icon}>
+    <MenuItem
+      active={selected === title}
+      onClick={() => setSelected(title)}
+      icon={icon}
+    >
       <Typography className="!text-[16px] !font-Poppins">{title}</Typography>
       <Link href={to} />
     </MenuItem>
@@ -46,10 +50,11 @@ const Item: FC<itemProps> = ({ title, to, icon, selected }) => {
 
 const AdminSidebar = () => {
   const { user } = useSelector((state: any) => state.auth);
+  const [logout, setLogout] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [selected, setSelected] = useState("Dashboard");
   const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
-  const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
 
@@ -57,27 +62,17 @@ const AdminSidebar = () => {
     return null;
   }
 
-  const menuItems = [
-    { title: "Dashboard", to: "/admin", icon: <HomeOutlinedIcon /> },
-    { title: "Users", to: "/admin/users", icon: <GroupsIcon /> },
-    { title: "Invoices", to: "/admin/invoices", icon: <ReceiptOutlinedIcon /> },
-    { title: "Create Course", to: "/admin/create-course", icon: <VideoCallIcon /> },
-    { title: "Live Courses", to: "/admin/courses", icon: <OndemandVideoIcon /> },
-    { title: "Hero", to: "/admin/hero", icon: <WebIcon /> },
-    { title: "FAQ", to: "/admin/faq", icon: <QuizIcon /> },
-    { title: "Categories", to: "/admin/categories", icon: <WysiwygIcon /> },
-    { title: "Manage Team", to: "/admin/team", icon: <PeopleOutlinedIcon /> },
-    { title: "Course Analytics", to: "/admin/course-analytics", icon: <BarChartOutlinedIcon /> },
-    { title: "Orders Analytics", to: "/admin/orders-analytics", icon: <MapOutlinedIcon /> },
-    { title: "Users Analytics", to: "/admin/users-analytics", icon: <ManageHistoryIcon /> },
-    { title: "Settings", to: "/admin/settings", icon: <SettingsIcon /> },
-  ];
+  const logoutHandler = () => {
+    setLogout(true);
+  };
 
   return (
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${theme === "dark" ? "#111C43 !important" : "#fff !important"}`,
+          background: `${
+            theme === "dark" ? "#111C43 !important" : "#fff !important"
+          }`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -88,24 +83,54 @@ const AdminSidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
+        "& .pro-inner-item": {
+          padding: "5px 35px 5px 20px !important",
+          opacity: 1,
+        },
+        "& .pro-menu-item": {
+          color: `${theme !== "dark" && "#000"}`,
+        },
       }}
       className="!bg-white dark:bg-[#111C43]"
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar
+        collapsed={isCollapsed}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: "100vh",
+          width: isCollapsed ? "0%" : "16%",
+        }}
+      >
         <Menu iconShape="square">
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+             onClick={() => {
+              console.log("Arrow clicked");
+              setIsCollapsed(!isCollapsed);
+           }}
             icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
+            style={{
+              margin: "10px 0px 20px 0px",
+            }}
           >
             {!isCollapsed && (
-              <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
                 <Link href="/">
-                  <Typography variant="h6" className="uppercase">
+                  <h3 className="text-[25px] font-Poppins uppercase text-black dark:text-white ">
                     ELearning
-                  </Typography>
+                  </h3>
                 </Link>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <ArrowBackIosIcon />
+                <IconButton
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="inline-block"
+                >
+                  <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1]" />
                 </IconButton>
               </Box>
             )}
@@ -124,24 +149,166 @@ const AdminSidebar = () => {
                     borderRadius: "50%",
                     border: "3px solid #5b6fe6",
                   }}
+                  className="w-[100px] h-[100px] rounded-full object-fit"
                 />
               </Box>
               <Box textAlign="center">
-                <Typography variant="h4">{user?.name}</Typography>
-                <Typography variant="h6">- {user?.role}</Typography>
+                <Typography
+                  variant="h4"
+                  className="!text-[20px] text-black dark:text-[#ffffffc1]"
+                  sx={{ m: "10px 0 0 0" }}
+                >
+                  {user?.name}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize"
+                  sx={{ m: "10px 0 0 0" }}
+                >
+                  - {user?.role}
+                </Typography>
               </Box>
             </Box>
           )}
 
-          {menuItems.map((item) => (
+          <Box paddingLeft={isCollapsed ? "undefined" : "10%"}>
             <Item
-              key={item.to}
-              title={item.title}
-              to={item.to}
-              icon={item.icon}
-              selected={router.pathname}
+              title="Dashboard"
+              to="/admin"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
             />
-          ))}
+            <Typography
+              variant="h5"
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              sx={{ m: "15px 0 5px 25px" }}
+            >
+              {!isCollapsed && "Data"}
+            </Typography>
+            <Item
+              title="Users"
+              to="/admin/users"
+              icon={<GroupsIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Invoices"
+              to="/admin/invoices"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h5"
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              {!isCollapsed && "Content"}
+            </Typography>
+            <Item
+              title="Create Course"
+              to="/admin/create-course"
+              icon={<VideoCallIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Live Courses"
+              to="/admin/courses"
+              icon={<OndemandVideoIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Typography
+              variant="h5"
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              {!isCollapsed && "Customization"}
+            </Typography>
+            <Item
+              title="Hero"
+              to="/admin/hero"
+              icon={<WebIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="FAQ"
+              to="/admin/faq"
+              icon={<QuizIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Categories"
+              to="/admin/categories"
+              icon={<WysiwygIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h5"
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              {!isCollapsed && "Controllers"}
+            </Typography>
+            <Item
+              title="Manage Team"
+              to="/admin/team"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h6"
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              {!isCollapsed && "Analytics"}
+            </Typography>
+            <Item
+              title="Course Analytics"
+              to="/admin/course-analytics"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Orders Analytics"
+              to="/admin/orders-analytics"
+              icon={<MapOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Users Analytics"
+              to="/admin/users-analytics"
+              icon={<ManageHistoryIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Typography
+              variant="h6"
+              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+              {!isCollapsed && "Extras"}
+            </Typography>
+            <Item
+              title="Settings"
+              to="/admin/settings"
+              icon={<SettingsIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              
+            />
+          </Box>
         </Menu>
       </ProSidebar>
     </Box>
